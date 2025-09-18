@@ -23,13 +23,13 @@ or check the prerequisites.txt file.
 
 HOW TO RUN IT:
 ==============
-To run our metric on a folder of images (i.e., JPEG, PNG, EXR, HDR, and MAT files),
-you need to launch the file ```diqm.py```. Some examples:
+To run our metric on images (i.e., JPEG, PNG, EXR, HDR, and MAT files),
+you need to launch the file ```diqm.py``` and set the ground truth (```-src```) and the image to be tested (```-dst```). Some examples:
 
 Testing images after inverse tone mapping operators:
 
 ```
-python3 diqm.py HDR_ITMO -ref tests/image_original.hdr -dst tests/image_eil.hdr
+python3 diqm.py HDR_ITMO -src tests/image_original.hdr -dst tests/image_eil.hdr
 ```
 
 WEIGHTS DOWNLOAD:

@@ -2,3 +2,6 @@
 weights/.DS_Store
 *.pyc
 .DS_Store
+hist_q_test.png
+hist_q_train.png
+hist_q_val.png

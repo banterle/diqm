@@ -173,7 +173,7 @@ class HdrVdpDataset(Dataset):
             fn_src = fn[0:index0]    
 
         if (index1 > -1):
-            fn_src = fn[0:index1]    
+            fn_src = fn[0:index1]  
 
         if (index2 > -1):
             fn_src = fn[0:index2]    
@@ -187,8 +187,7 @@ class HdrVdpDataset(Dataset):
 
         fn_src = os.path.join(stim, 'stim/' + fn_src)
 
-
-        stim = read_img_cv2(fn, maxClip = sample.Lmax, grayscale = False, encoding = self.encoding)        
+        dst = read_img_cv2(fn, maxClip = sample.Lmax, grayscale = False, encoding = self.encoding)        
         src = read_img_cv2(fn_src, maxClip = sample.Lmax, grayscale = False, encoding = self.encoding)        
             
         q_out = sample.Q
@@ -203,10 +202,10 @@ class HdrVdpDataset(Dataset):
 
             
         if 'I' in sample :
-            stim = torchDataAugmentation(stim, sample.I)
+            dst = torchDataAugmentation(dst, sample.I)
             src = torchDataAugmentation(src, sample.I)
 
-        return src, stim, q, lmax
+        return src, dst, q, lmax
 
     #
     #

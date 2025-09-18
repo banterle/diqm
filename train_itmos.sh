@@ -1,0 +1,1 @@
+python train.py /home/banterle/DL/data/vdp_itmos -s 1 --batch 32 --group 24 -gpa 5 --epochs 101

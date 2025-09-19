@@ -39,17 +39,6 @@ def correlation_SROCC(x, y):
     res = scipy.stats.spearmanr(x, y)
     r = res.statistic
     return r
-
-#
-#
-#
-def fromPILtoNP(img, bNorm = False):
-    #img_np = np.array(img.getdata()).reshape(img.size[0], img.size[1], 3)
-    img_np = np.array(img);
-    img_np = img_np.astype('float32')
-    if bNorm:
-        img_np /= 255.0
-    return img_np
  
 #
 #

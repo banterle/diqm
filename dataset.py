@@ -129,12 +129,6 @@ def split_data(data_dir, random_state=42, group=None, groupaffine= 1):
     sns.distplot(q_tes, kde=True, rug=True, bins=100)
     plt.savefig('hist_q_test.png')
 
-
-    #if group:
-    #    train = pd.concat(train)
-    #    val = pd.concat(val)
-    #    test = pd.concat(test)
-
     return train, val, test
 
 #
@@ -145,11 +139,10 @@ class HdrVdpDataset(Dataset):
     #
     #
     #
-    def __init__(self, data, base_dir, bScaling = False, grayscale = True, encoding = 'PU21'):
+    def __init__(self, data, base_dir, bScaling = False, encoding = 'PU21'):
         self.data = data
         self.base_dir = base_dir
         self.bScaling = bScaling
-        self.grayscale = grayscale
         self.encoding = encoding
 
     #
@@ -194,12 +187,9 @@ class HdrVdpDataset(Dataset):
 
         if self.bScaling:
             q = torch.FloatTensor([q_out / 100.0])
-        else:
-            q = torch.FloatTensor([q_out])
-         
-        if self.bScaling:
             lmax = torch.FloatTensor([sample.Lmax / 10000.0])
-
+        else:
+            q = torch.FloatTensor([q_out])        
             
         if 'I' in sample :
             dst = torchDataAugmentation(dst, sample.I)

@@ -83,7 +83,15 @@ def read_img_cv2(filename, maxClip = 1e4, grayscale = True, colorspace = 'REC709
             y = img
     else:
         sz = img.shape
-        y = np.reshape(img, (sz[2], sz[1], sz[0]))
+        if len(sz) == 2:
+            out = np.zeros((sz[0], sz[1], 3))
+            out[:,:,0] = img
+            out[:,:,1] = img
+            out[:,:,2] = img
+                        
+            y = np.reshape(out, (3, sz[1], sz[0]))
+        else:
+            y = np.reshape(img, (sz[2], sz[1], sz[0]))
 
     if log_range:
         if display_referred:

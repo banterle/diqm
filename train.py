@@ -33,6 +33,16 @@ from util import *
 from dataset import split_data, read_data_split, HdrVdpDataset
 from model_classic import QNet
 
+
+#            counter_id = random.randint(0,  src.shape[0] - 1)
+#            tmp = src[counter_id,:,:,:].unsqueeze(0)
+#            stim2 = torch.cat((tmp, tmp), dim=1)
+#            q_hat2 = model(stim2, lmax) 
+#        
+#            delta = q_hat2 - 1.0
+#            delta_sq = delta * delta
+#            loss += 0.1 * delta_sq.mean()
+
 #
 # training for a single epoch
 #
@@ -56,14 +66,12 @@ def train(loader, model, optimizer, args):
         loss = F.mse_loss(q_hat, q)
 
         #same input should be the same
-        counter_id = random.randint(0,  src.shape[0] - 1)
-        tmp = src[counter_id,:,:,:].unsqueeze(0)
-        stim2 = torch.cat((tmp, tmp), dim=1)
-        q_hat2 = model(stim2, lmax) 
-        
-        delta = q_hat2 - 1.0
-        delta_sq = delta * delta
-        loss += 0.1 * delta_sq.mean()
+        #counter_id = random.randint(0,  src.shape[0] - 1)
+        #tmp = src[counter_id,:,:,:].unsqueeze(0)
+        stim2 = torch.cat((src, src), dim=1)
+        q_hat2 = model(stim2, lmax)         
+        loss_id = ((q_hat2 - 1.0)**2).mean()
+        loss += 0.01 * loss_id
                 
         optimizer.zero_grad()
         loss.backward()
@@ -101,14 +109,10 @@ def evaluate(loader, model, args):
             loss = F.mse_loss(q_hat, q)
 
             #same input should be the same
-            counter_id = random.randint(0,  src.shape[0] - 1)
-            tmp = src[counter_id,:,:,:].unsqueeze(0)
-            stim2 = torch.cat((tmp, tmp), dim=1)
-            q_hat2 = model(stim2, lmax) 
-        
-            delta = q_hat2 - 1.0
-            delta_sq = delta * delta
-            loss += 0.1 * delta_sq.mean()
+            stim2 = torch.cat((src, src), dim=1)
+            q_hat2 = model(stim2, lmax)         
+            loss_id = ((q_hat2 - 1.0)**2).mean()
+            loss += 0.01 * loss_id
         
             counter += 1
             total_loss += loss.item()
@@ -136,7 +140,7 @@ if __name__ == '__main__':
     parser.add_argument('-gpa', '--groupaffine', type=int, default=-1, help='grouping affine')
     parser.add_argument('-s', '--scaling', type=int, default=0, help='scaling')
     parser.add_argument('-e', '--epochs', type=int, default=100, help='Number of training epochs')
-    parser.add_argument('-b', '--batch', type=int, default=1, help='Batch size')
+    parser.add_argument('-b', '--batch', type=int, default=32, help='Batch size')
     parser.add_argument('--lr', type=float, default=1e-4, help='Learning rate')
     parser.add_argument('-r', '--runs', type=str, default='runs/', help='Base dir for runs')
     parser.add_argument('--resume', default='none', type=str, help='Path to initial weights')
@@ -148,9 +152,6 @@ if __name__ == '__main__':
     ### Prepare run dir
     params = vars(args)
     params['dataset'] = os.path.basename(os.path.normpath(args.data))
-
-    if 'PU21' in args.encoding:
-        args.encoding = 'PU21'
 
     if 'LOG10' in args.encoding:
         args.encoding = 'LOG10'
@@ -284,12 +285,6 @@ if __name__ == '__main__':
             print('Correlation: ' + str(rho0) + ' ' +str(rho1))
             np.savetxt(os.path.join(run_dir, 'errors_' + out_str + '.txt'), mtx, fmt='%f')
             np.savetxt(os.path.join(run_dir, 'errors_' + out_str + '_rho.txt'), np.array([rho0, rho1, val_loss]), fmt='%f')
-            #np.savetxt(os.path.join('results_'+results_str, 'errors_' + out_str + '.txt'), mtx, fmt='%f')            
-
-            #plt.clf()
-            #sns.distplot(errors, kde=True, rug=True)
-            #plt.savefig('results_'+results_str+'/hist_errors_test_' +  out_str + '.png')
-            #plt.savefig(os.path.join(run_dir, 'hist_errors_test_' +  out_str + '.png'))
 
             plt.clf() 
             fig, ax = plt.subplots()
@@ -298,7 +293,6 @@ if __name__ == '__main__':
             plt.savefig(os.path.join(run_dir, 'scatter_plot_test_' +  out_str + '.png'))
 
             name_f = 'plot_' + out_str + '.png'
-            #plotGraph(a_t, a_v, a_te, 'results_'+results_str, name_f)
             plotGraph(a_t, a_v, a_te, run_dir, name_f)
                         
             plt.close('all')

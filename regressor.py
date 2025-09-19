@@ -14,13 +14,15 @@ class Regressor(nn.Module):
     #
     #
     #
-    def __init__(self, in_size=1, out_size=1, params_size = None, bSigmoid = True):
+    def __init__(self, in_size=1, out_size=1, params_size = None, bSigmoid = False):
         super(Regressor, self).__init__()
 
         if params_size == None:
             params_size = 0
 
         self.params_size = params_size
+
+        print('Sigmoid regressor: ' + str(bSigmoid))
 
         if bSigmoid:
             self.regressor = nn.Sequential(

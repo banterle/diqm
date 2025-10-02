@@ -39,6 +39,18 @@ def correlation_SROCC(x, y):
     res = scipy.stats.spearmanr(x, y)
     r = res.statistic
     return r
+
+#
+#
+#
+def fromPILtoNP(img, bNorm = False):
+    img_np = np.array(img);
+    img_np = img_np.astype('float32')
+
+    if bNorm:
+        img_np /= 255.0
+
+    return img_np
  
 #
 #
@@ -67,20 +79,10 @@ def read_img_cv2(filename, maxClip = 1e4, grayscale = True, colorspace = 'REC709
                 y = 0.2126 * img[:,:,2] + 0.7152 * img[:,:,1] + 0.0722 * img[:,:,0]
             elif colorspace == 'REC2020':
                 y = 0.263  * img[:,:,2] + 0.678  * img[:,:,1] + 0.059  * img[:,:,0]
-
         else:
-            y = img
+            y = img.mean(axis=0)
     else:
-        sz = img.shape
-        if len(sz) == 2:
-            out = np.zeros((sz[0], sz[1], 3))
-            out[:,:,0] = img
-            out[:,:,1] = img
-            out[:,:,2] = img
-                        
-            y = np.reshape(out, (3, sz[1], sz[0]))
-        else:
-            y = np.reshape(img, (sz[2], sz[1], sz[0]))
+        y = img
 
     if log_range:
         if display_referred:
@@ -94,10 +96,11 @@ def read_img_cv2(filename, maxClip = 1e4, grayscale = True, colorspace = 'REC709
             y = y / Lwa
             y = y / (y + 1)
 
-    z = torch.FloatTensor(y)
-
     if grayscale:
+        z = torch.FloatTensor(y)
         z = z.unsqueeze(0)
+    else:
+        z = torch.from_numpy(y).permute(2,0,1)
 
     return z
 

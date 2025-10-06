@@ -33,16 +33,6 @@ from util import *
 from dataset import split_data, read_data_split, HdrVdpDataset
 from model_classic import QNet
 
-
-#            counter_id = random.randint(0,  src.shape[0] - 1)
-#            tmp = src[counter_id,:,:,:].unsqueeze(0)
-#            stim2 = torch.cat((tmp, tmp), dim=1)
-#            q_hat2 = model(stim2, lmax) 
-#        
-#            delta = q_hat2 - 1.0
-#            delta_sq = delta * delta
-#            loss += 0.1 * delta_sq.mean()
-
 #
 # training for a single epoch
 #

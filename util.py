@@ -66,6 +66,18 @@ def read_img_cv2(filename, maxClip = 1e4, grayscale = True, colorspace = 'REC709
 
     img = cv2.imread(filename, cv2.IMREAD_ANYCOLOR | cv2.IMREAD_ANYDEPTH)
 
+    #no alpha
+    if len(img.shape) == 4:
+        img = img[:,:,0:3]
+
+    if len(img.shape) == 2:   
+        rgb = np.zeros((img.shape[0], img.shape[1],3), dtype = img.dtype)
+        rgb[:,:,0] = img
+        rgb[:,:,1] = img
+        rgb[:,:,2] = img
+        img = rgb
+
+
     if log_range:
         img[img < 0.0] = 0.0
     

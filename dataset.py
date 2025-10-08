@@ -12,6 +12,8 @@ import numpy as np
 from numpy.random import Generator, PCG64
 
 #
+#
+#
 def torchDataAugmentation(img, j):
     img_out = []
     if(j == 0):
@@ -70,7 +72,6 @@ def split_data(data_dir, random_state=42, group=None, groupaffine= 1):
 
     data = os.path.join(data_dir, 'data.csv')
     data = pd.read_csv(data)
-    data.to_csv('test.csv')
     data.sort_values(by=['Distorted'], inplace=True)
     
     if group:
@@ -158,7 +159,7 @@ class HdrVdpDataset(Dataset):
 
         index0 = fn.find('_E_')
         index1 = fn.find('_PARAM_')
-        index2 = fn.find('_jxt_q_')
+        index2 = fn.find('_PARAM_jxt_q_')
 
         fn_src = ''
 
@@ -174,7 +175,7 @@ class HdrVdpDataset(Dataset):
         fn_src = fn_src + '_o'
         fn_wo_ext, ext = os.path.splitext(fn)
         fn_src = fn_src + ext
-
+                    
         fn = fn.replace('stim/', '')        
         fn = os.path.join(stim, 'stim/' + fn)
 

@@ -22,7 +22,7 @@ class Regressor(nn.Module):
 
         self.params_size = params_size
 
-        print('Sigmoid regressor: ' + str(bSigmoid))
+        #print('Sigmoid regressor: ' + str(bSigmoid))
 
         if bSigmoid:
             self.regressor = nn.Sequential(

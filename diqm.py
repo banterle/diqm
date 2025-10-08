@@ -13,7 +13,7 @@ if __name__ == '__main__':
     os.environ['OPENCV_IO_ENABLE_OPENEXR'] = '1'
 
     parser = argparse.ArgumentParser(description='Eval Q regressor', formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('mode', type=str, help='HDR_COMP (JPEG-XT compression), HDR_ITMO (inverse tone mapping), SDR (distortions for 8-bit images), and and SDR_TMO (tone mapping distortions).')
+    parser.add_argument('mode', type=str, help='HDR_COMP (JPEG-XT compression), HDR_ITMO (inverse tone mapping), and SDR (distortions for 8-bit images).')
     parser.add_argument('-src', type=str, help='Reference image')
     parser.add_argument('-dst', type=str, help='Distorted image')
     parser.add_argument('-dr', '--display_referred', type=str, default='yes', help='Do we need to apply the display? (yes/no)')
@@ -23,7 +23,7 @@ if __name__ == '__main__':
         
     model = DIQMModel(args.mode, colorspace = args.colorspace, display_referred = args.display_referred)
         
-    if (args.mode != 'SDR') and (args.mode != 'HDR_COMP') and (args.mode != 'HDR_ITMO') and (args.mode != 'SDR_TMO'):
+    if (args.mode != 'SDR') and (args.mode != 'HDR_COMP') and (args.mode != 'HDR_ITMO'):
         print('The mode ' + args.mode + ' selected is not supported.')
         print('Supported modes: HDR_ITMO, HDR_COMP, SDR, and SDR_TMO.')
         sys.exit()

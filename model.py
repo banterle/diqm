@@ -47,12 +47,12 @@ class DIQMModel:
                 model = self.setup_aux(url_str + 'diqm_itmo.pth', maxClip, colorspace, display_referred)
             bDone = True
 
-        if args_mode == 'SDR_TMO':
-            try:
-                model = self.setup_aux('weights/diqm_tmo.pth', maxClip, colorspace, display_referred)
-            except:
-                model = self.setup_aux(url_str + 'diqm_tmo.pth', maxClip, colorspace, display_referred)
-            bDone = True
+        #if args_mode == 'SDR_TMO':
+        #    try:
+        #        model = self.setup_aux('weights/diqm_tmo.pth', maxClip, colorspace, display_referred)
+        #    except:
+        #        model = self.setup_aux(url_str + 'diqm_tmo.pth', maxClip, colorspace, display_referred)
+        #    bDone = True
             
         if bDone == False:
            self.setup_aux(run, maxClip, colorspace, display_referred)

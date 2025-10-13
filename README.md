@@ -35,7 +35,9 @@ python3 diqm.py HDR_ITMO -src tests/image_original.hdr -dst tests/image_eil.hdr
 WEIGHTS DOWNLOAD:
 =================
 Weights can be downloaded here:
-<a href="http://www.banterle.com/francesco/projects/norvdpnetpp/norvdpnetpp_itmo.pth">ITMO</a>.
+<a href="http://www.banterle.com/francesco/projects/diqm/diqm_sdr.pth">SDR</a> (8-bit distortions), 
+<a href="http://www.banterle.com/francesco/projects/diqm/diqm_hdrc.pth">HDR Compression</a>,
+and <a href="http://www.banterle.com/francesco/projects/diqm/diqm_itmo.pth">ITMO</a> (inverse tone mapping).
 
 Note that these weights are meant to model ONLY determined distortions; please see reference to have a complete overview.
 
